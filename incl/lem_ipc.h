@@ -38,7 +38,7 @@ typedef struct s_position {
 } t_position;
 
 typedef struct s_shm {
-    int     player;
+    int     player_count;
     int     grid[MAX_W][MAX_H];
 } t_shm;
 
