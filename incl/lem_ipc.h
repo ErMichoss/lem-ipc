@@ -83,5 +83,9 @@ void    ipc_init(t_player *p);
 /* ___ IPC_CLEAN ___ */
 void ipc_clean(t_player *p);
 
+/* ___ BOARD ___ */
+int put_player(t_player *p);
+int move_player(t_player *p, int dir);
+void remove_player(t_player *p);
 
 #endif
