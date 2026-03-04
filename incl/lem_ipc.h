@@ -70,5 +70,18 @@ typedef struct s_message {
 } t_message;
 
 /* ___ AUX FUNCTIONS ___ */
-void	*ft_memset(void *str, int c, size_t n);
+void    *ft_memset(void *str, int c, size_t n);
+
+/* ___ IPC_INIT ___ */
+void    init_shm(t_player *p);
+void    init_sem(t_player *p);
+void    init_msgq(t_player *p);
+int     sem_lock(int semid);
+int     sem_unlock(int semid);
+void    ipc_init(t_player *p);
+
+/* ___ IPC_CLEAN ___ */
+void ipc_clean(t_player *p);
+
+
 #endif

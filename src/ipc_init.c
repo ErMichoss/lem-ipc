@@ -1,6 +1,6 @@
 #include "lem_ipc.h"
 
-void init_shm(t_player *p){
+void init_shm(t_player *p) {
     int shmid;
 
     shmid = shmget(SHM_KEY, 0, 0666);
@@ -49,7 +49,7 @@ void init_sem(t_player *p) {
     p->semid = semid;
 }
 
-void init_msgq(t_player *p){
+void init_msgq(t_player *p) {
     int msqid;
 
     msqid = msgget(MSGQ_KEY, 0666);
@@ -83,7 +83,7 @@ int sem_unlock(int semid) {
     return semop(semid, &buf, 1);
 }
 
-void ipc_init(t_player *p){
+void ipc_init(t_player *p) {
     init_shm(p);
     if (p->shm == (void*)-1) {
         printf("Error in init_shm (ipc_init) File: %s - Line: %d\n", __FILE__, __LINE__);
