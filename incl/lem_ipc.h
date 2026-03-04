@@ -50,7 +50,9 @@ typedef struct s_player {
     t_position  pos;
     bool        alive;
     bool        victory;
+    int         shmid;
     int         semid;
+    int         msqid;
 } t_player;
 
 
