@@ -9,6 +9,10 @@
 #  define MAX_H 20
 # endif
 
+# ifndef MAX_TEAMS
+#  define MAX_TEAMS 10
+# endif
+
 # define SHM_KEY  0x1234
 # define MSGQ_KEY 0x5678
 # define SEM_KEY  0x9ABC
@@ -59,10 +63,9 @@ typedef struct s_player {
 typedef struct s_message {
     long        mtype;  //tipo de mensaje:
     /*
-        0 = cualquier mensaje
         1 = mensajes del equipo 1
         2 = mensajes del equipo 2
-        22 = mensajes globales
+        MAX_TEAM + 1 = mensajes globales
     */
     int         team;   //equipo emisor
     t_position  pos;    //posición
@@ -71,6 +74,9 @@ typedef struct s_message {
 
 /* ___ AUX FUNCTIONS ___ */
 void    *ft_memset(void *str, int c, size_t n);
+int     ft_atoi(const char *str);
+bool    is_valid_team(const char *str);
+bool    check_args(int argc, char *argv[]);
 
 /* ___ IPC_INIT ___ */
 void    init_shm(t_player *p);
@@ -81,11 +87,19 @@ int     sem_unlock(int semid);
 void    ipc_init(t_player *p);
 
 /* ___ IPC_CLEAN ___ */
-void ipc_clean(t_player *p);
+void    ipc_clean(t_player *p);
 
 /* ___ BOARD ___ */
-int put_player(t_player *p);
-int move_player(t_player *p, int dir);
-void remove_player(t_player *p);
+int     put_player(t_player *p);
+int     move_player(t_player *p, int dir);
+void    remove_player(t_player *p);
+
+/* ___ PLAYER ___ */
+bool    am_i_dead(t_player *p);
+void    player_loop(t_player *p);
+
+/* ___ MESSAGES ___ */
+void    send_msg(t_player *p, int event);
+int     recv_msg(t_player *p, t_message *msg);
 
 #endif

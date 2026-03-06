@@ -42,4 +42,8 @@ ifdef BOARD
 CFLAGS += -DMAX_H=$(word 1, $(BOARD)) -DMAX_W=$(word 2, $(BOARD))
 endif
 
+ifdef TEAMS
+CFLAGS += -DMAX_TEAMS=$(TEAMS)
+endif
+
 .PHONY: all clean fclean re
