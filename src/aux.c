@@ -79,3 +79,13 @@ int ft_atoi(const char *str) {
     result = ft_transform(str, i);
     return (sign * result);
 }
+
+void ft_putnbr(int n) {
+    if (n >= 10)
+        ft_putnbr(n / 10);
+    ft_putchar('0' + n % 10);
+}
+
+void ft_putchar(char c) {
+    write(1, &c, 1);
+}

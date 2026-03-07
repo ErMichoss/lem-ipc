@@ -38,6 +38,9 @@ bool am_i_dead(t_player *p) {
 
 void player_loop(t_player *p) {
     while (!am_i_dead(p)) {
+        t_message msg;
+        recv_msg(p, &msg);
+
         // Decidir a donde voy
         /*
             Pasos para desarrollar un jugador coherente.
@@ -50,9 +53,10 @@ void player_loop(t_player *p) {
         int dir = rand() % 4 + 1;
         // moverme
         move_player(p, dir);
+        display_board(p);
         send_msg(p, MOVE);
         //dormir un ratiro
-        usleep(2000);
+        usleep(10000);
     }
 
     send_msg(p, DEATH);

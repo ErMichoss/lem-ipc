@@ -28,7 +28,8 @@
 # include <sys/ipc.h>
 # include <sys/shm.h>
 # include <sys/msg.h>
-# include <sys/sem.h>  
+# include <sys/sem.h> 
+# include <time.h>
 
 typedef enum e_event {
     MOVE = 0,
@@ -77,6 +78,8 @@ void    *ft_memset(void *str, int c, size_t n);
 int     ft_atoi(const char *str);
 bool    is_valid_team(const char *str);
 bool    check_args(int argc, char *argv[]);
+void    ft_putnbr(int n);
+void    ft_putchar(char c);
 
 /* ___ IPC_INIT ___ */
 void    init_shm(t_player *p);
@@ -101,5 +104,8 @@ void    player_loop(t_player *p);
 /* ___ MESSAGES ___ */
 void    send_msg(t_player *p, int event);
 int     recv_msg(t_player *p, t_message *msg);
+
+/* ___ DISPLAY ___ */
+void    display_board(t_player *p);
 
 #endif

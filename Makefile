@@ -4,36 +4,29 @@ CC      = gcc
 CFLAGS  = -Wall -Wextra -Werror
 IFLAGS  = -I incl
 
-SRCS    = srcs/main.c        \
-          srcs/ipc_init.c    \
-          srcs/ipc_clean.c   \
-          srcs/board.c       \
-          srcs/player.c      \
-          srcs/move.c        \
-          srcs/messages.c    \
-          srcs/display.c
+SRCS    = src/main.c        \
+          src/ipc_init.c    \
+          src/ipc_clean.c   \
+          src/board.c       \
+          src/player.c      \
+          src/messages.c    \
+          src/display.c     \
+          src/aux.c
 
 OBJS    = $(SRCS:.c=.o)
 
-LIBFT   = libft/libft.a
-
 all: $(NAME)
 
-$(LIBFT):
-	$(MAKE) -C libft
-
-$(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -L libft -lft -o $(NAME)
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(IFLAGS) $(OBJS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 clean:
-	$(MAKE) -C libft clean
 	rm -f $(OBJS)
 
 fclean: clean
-	$(MAKE) -C libft fclean
 	rm -f $(NAME)
 
 re: fclean all
