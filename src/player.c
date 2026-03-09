@@ -56,7 +56,7 @@ void player_loop(t_player *p) {
         display_board(p);
         send_msg(p, MOVE);
         //dormir un ratiro
-        usleep(10000);
+        usleep(200000);
     }
 
     send_msg(p, DEATH);
