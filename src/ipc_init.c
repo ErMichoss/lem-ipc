@@ -1,4 +1,4 @@
-#include "lem_ipc.h"
+#include "display.h"
 
 void init_shm(t_player *p) {
     int shmid;
@@ -99,6 +99,60 @@ void ipc_init(t_player *p) {
     if (p->msqid == -1) {
         printf("Error in init_msq (ipc_init) File: %s - Line: %d\n", __FILE__, __LINE__);
         shmctl(p->shmid, IPC_RMID, NULL);
+        return;
+    }
+}
+
+//TODO montar la proteccion, o incidicacion del algo si no esta iniciado el shm
+void init_shm_display(t_sdl *sdl) { 
+    int shmid;
+
+    shmid = shmget(SHM_KEY, 0, 0666);
+    if (shmid != -1) {
+        void* shm = shmat(shmid, NULL, 0);
+        if (shm == (void *)-1) { 
+            printf("Error in shmat (init_shm) File: %s - Line: %d\n", __FILE__, __LINE__);
+            return; 
+        }
+        sdl->shm = shm;
+        sdl->shmid = shmid;
+    }
+}
+
+void init_sem_display(t_sdl *sdl) {
+    int semid;
+
+    semid = semget(SEM_KEY, 0, 0666);
+    if (semid != -1) {
+        sdl->semid = semid;
+    }
+}
+
+void init_msgq_display(t_sdl *sdl) {
+    int msqid;
+
+    msqid = msgget(MSGQ_KEY, 0666);
+    if (msqid != -1) {
+        sdl->msqid = msqid;
+    }   
+}
+
+void ipc_init_display(t_sdl *sdl) {
+    init_shm_display(sdl);
+    if (sdl->shm == (void*)-1) {
+        printf("Error in init_shm (ipc_init) File: %s - Line: %d\n", __FILE__, __LINE__);
+        return;
+    }
+    init_sem_display(sdl);
+    if (sdl->semid == -1) {
+        printf("Error in init_sem (ipc_init) File: %s - Line: %d\n", __FILE__, __LINE__);
+        shmctl(sdl->shmid, IPC_RMID, NULL);
+        return;
+    }
+    init_msgq_display(sdl);
+    if (sdl->msqid == -1) {
+        printf("Error in init_msq (ipc_init) File: %s - Line: %d\n", __FILE__, __LINE__);
+        shmctl(sdl->shmid, IPC_RMID, NULL);
         return;
     }
 }

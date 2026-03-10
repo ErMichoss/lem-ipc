@@ -81,6 +81,7 @@ bool    is_valid_team(const char *str);
 bool    check_args(int argc, char *argv[]);
 void    ft_putnbr(int n);
 void    ft_putchar(char c);
+char	*ft_itoa(int n);
 
 /* ___ IPC_INIT ___ */
 void    init_shm(t_player *p);
