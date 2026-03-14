@@ -8,7 +8,7 @@
 dlname='libSDL2-2.0.so.0'
 
 # Names of this library.
-library_names='libSDL2-2.0.so.0.2800.5 libSDL2-2.0.so.0 libSDL2.so'
+library_names='libSDL2-2.0.so.0.2600.5 libSDL2-2.0.so.0 libSDL2.so'
 
 # The name of the static archive.
 old_library='libSDL2.a'
@@ -17,14 +17,14 @@ old_library='libSDL2.a'
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -lm -lpthread'
+dependency_libs=' -lm -lpthread -lrt'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
 
 # Version information for libSDL2.
-current=2800
-age=2800
+current=2600
+age=2600
 revision=5
 
 # Is this an already installed library?
@@ -38,4 +38,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/home/nicgonza/lem-ipc/SDL2-2.28.5/../sdl2/lib'
+libdir='/home/nicgonza/lem-ipc/SDL2-2.26.5/../sdl2/lib'

@@ -43,7 +43,7 @@ while test $# -gt 0; do
       echo $exec_prefix
       ;;
     --version)
-      echo 2.28.5
+      echo 2.26.5
       ;;
     --cflags)
       echo -I${prefix}/include/SDL2   -D_REENTRANT
@@ -53,7 +53,7 @@ while test $# -gt 0; do
       ;;
     --static-libs)
 #    --libs|--static-libs)
-      sdl_static_libs=$(echo "-lSDL2  -lm -lpthread" | sed -E "s#-lSDL2[ $]#$libdir/libSDL2.a #g")
+      sdl_static_libs=$(echo "-lSDL2  -lm -lpthread -lrt" | sed -E "s#-lSDL2[ $]#$libdir/libSDL2.a #g")
       echo -L${exec_prefix}/lib $sdl_static_libs
       ;;
     *)

@@ -135,3 +135,7 @@ char	*ft_itoa(int n)
 	}
 	return (result);
 }
+
+int manhattan(t_position a, t_position b) {
+    return abs(a.x - b.x) + abs(a.y - b.y);
+}

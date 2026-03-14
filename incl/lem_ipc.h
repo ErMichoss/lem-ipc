@@ -31,6 +31,7 @@
 # include <sys/sem.h> 
 # include <time.h>
 # include <signal.h>
+# include <stdlib.h> 
 
 typedef enum e_event {
     MOVE = 0,
@@ -46,6 +47,7 @@ typedef struct s_position {
 typedef struct s_shm {
     int     player_count;
     int     grid[MAX_W][MAX_H];
+    int     dirs[MAX_H][MAX_W]; 
 } t_shm;
 
 typedef struct s_player {
@@ -82,6 +84,7 @@ bool    check_args(int argc, char *argv[]);
 void    ft_putnbr(int n);
 void    ft_putchar(char c);
 char	*ft_itoa(int n);
+int     manhattan(t_position a, t_position b);
 
 /* ___ IPC_INIT ___ */
 void    init_shm(t_player *p);

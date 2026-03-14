@@ -64,9 +64,11 @@ void draw_players(t_sdl *sdl) {
                 SDL_Rect rect = { x * 64, y * 64, 64, 64 };
                 SDL_Color color = get_team_color(sdl->shm->grid[y][x]);
 
-                SDL_SetTextureColorMod(sdl->ant[2], color.r, color.g, color.b);
-                SDL_RenderCopy(sdl->renderer, sdl->ant[2], NULL, &rect);
-                SDL_SetTextureColorMod(sdl->ant[2], 255, 255, 255);
+                int dir = sdl->shm->dirs[y][x];
+
+                SDL_SetTextureColorMod(sdl->ant[dir], color.r, color.g, color.b);
+                SDL_RenderCopy(sdl->renderer, sdl->ant[dir], NULL, &rect);
+                SDL_SetTextureColorMod(sdl->ant[dir], 255, 255, 255);
                 
                 char *num = ft_itoa(sdl->shm->grid[y][x]);
 

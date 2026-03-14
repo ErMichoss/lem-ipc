@@ -55,6 +55,7 @@ int move_player(t_player *p, int dir) {
         sem_unlock(p->semid);
         return 1;
     }
+    p->shm->dirs[ny][nx] = dir - 1;
     sem_unlock(p->semid);
     return 0;
 }
