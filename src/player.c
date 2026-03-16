@@ -50,9 +50,12 @@ void player_loop(t_player *p) {
              4. Una vez funcion todo, volverlo inteligente para que analice riesgo y recompensa
         */
         // Random
-        int dir = rand() % 4 + 1;
+        //int dir = rand() % 4 + 1;
         // moverme
-        move_player(p, dir);
+        if (move_player(p, get_dir(p)) != 0) {
+            // movimiento bloqueado, intentar dirección random
+            move_player(p, rand() % 4 + 1);
+        }
         display_board(p);
         send_msg(p, MOVE);
         //dormir un ratiro

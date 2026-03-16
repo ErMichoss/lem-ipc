@@ -13,7 +13,8 @@ LDFLAGS = -L sdl2/lib -lSDL2 \
           -L sdl2_ttf/lib -lSDL2_ttf \
           -Wl,-rpath,$(shell pwd)/sdl2/lib \
           -Wl,-rpath,$(shell pwd)/sdl2_image/lib \
-          -Wl,-rpath,$(shell pwd)/sdl2_ttf/lib
+          -Wl,-rpath,$(shell pwd)/sdl2_ttf/lib \
+          -lm
 
 SRCS = src/main.c     \
        src/ipc_init.c \
@@ -22,6 +23,7 @@ SRCS = src/main.c     \
        src/player.c   \
        src/display.c  \
        src/messages.c \
+       src/brain.c    \
        src/aux.c
 
 SRCS_DISPLAY = src/display_main.c \

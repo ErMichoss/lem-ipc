@@ -31,6 +31,8 @@ int put_player(t_player *p) {
  * @return 0 if everything is right, 1 if an error occurs
  */
 int move_player(t_player *p, int dir) {
+    if (dir == 0) return 0;
+
     int nx = p->pos.x;
     int ny = p->pos.y;
 

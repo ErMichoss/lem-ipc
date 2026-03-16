@@ -113,4 +113,8 @@ int     recv_msg(t_player *p, t_message *msg);
 /* ___ DISPLAY ___ */
 void    display_board(t_player *p);
 
+/* ___ BRAIN ___ */
+t_position  find_enemy(t_player *p);
+int         get_dir(t_player *p);
+
 #endif

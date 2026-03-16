@@ -40,3 +40,29 @@ t_position find_enemy(t_player *p) {
 
     return positions[closes_pos_idx];
 }
+
+int get_dir(t_player *p) {
+    t_position closest;
+
+    closest = find_enemy(p);
+    if (closest.x == p->pos.x && closest.y == p->pos.y)
+        return 0;
+
+
+    int x_dif = closest.x - p->pos.x ;
+    int y_dif = closest.y - p->pos.y;
+    if (x_dif == 0) {
+        if (y_dif < 0) { return 2; } else { return 4;}
+    } else if (y_dif == 0) {
+        if (x_dif < 0) { return 1; } else { return 3; }
+    } else if (x_dif < 0 && y_dif < 0) {
+        if (x_dif < y_dif) { return 1; } else { return 2; }
+    } else if (x_dif < 0 && y_dif > 0) {
+        if (x_dif < (y_dif * -1)) { return 1; } else {return 4;} 
+    } else if (x_dif > 0 && y_dif > 0) {
+        if (x_dif < y_dif) { return 3; } else { return 4; }
+    } else if (x_dif > 0 && y_dif < 0) {
+        if (x_dif < (y_dif * -1)) { return 3; } else { return 2; }
+    }
+    return 0;
+}
