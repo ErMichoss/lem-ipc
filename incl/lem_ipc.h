@@ -36,7 +36,8 @@
 typedef enum e_event {
     MOVE = 0,
     DEATH,
-    VICTORY
+    VICTORY,
+    TARGET
 } t_event;
 
 typedef struct s_position {
@@ -73,6 +74,7 @@ typedef struct s_message {
     */
     int         team;   //equipo emisor
     t_position  pos;    //posición
+    t_position  target; //posición del enemigo que persigue
     t_event     event;  //evento
 } t_message;
 
@@ -107,14 +109,14 @@ bool    am_i_dead(t_player *p);
 void    player_loop(t_player *p);
 
 /* ___ MESSAGES ___ */
-void    send_msg(t_player *p, int event);
-int     recv_msg(t_player *p, t_message *msg);
+void    send_msg(t_player *p, int event, t_position target);
+int recv_msg(t_player *p, t_message *msg, int mtype);
 
 /* ___ DISPLAY ___ */
 void    display_board(t_player *p);
 
 /* ___ BRAIN ___ */
 t_position  find_enemy(t_player *p);
-int         get_dir(t_player *p);
+int         get_dir(t_player *p, t_position target);
 
 #endif

@@ -39,30 +39,43 @@ bool am_i_dead(t_player *p) {
 void player_loop(t_player *p) {
     while (!am_i_dead(p)) {
         t_message msg;
-        recv_msg(p, &msg);
-
-        // Decidir a donde voy
-        /*
-            Pasos para desarrollar un jugador coherente.
-             1. Jugador es tonto -> se mueve aleatorio
-             2. Una vez funcione el 1 implementar que vaya a por un jugador cercano
-             3. Una vez funciones el 2 implementar que lea los mensajes para que se cordinee con su equipo.
-             4. Una vez funcion todo, volverlo inteligente para que analice riesgo y recompensa
-        */
-        // Random
-        //int dir = rand() % 4 + 1;
-        // moverme
-        if (move_player(p, get_dir(p)) != 0) {
-            // movimiento bloqueado, intentar dirección random
-            move_player(p, rand() % 4 + 1);
+        t_position target;
+        if (recv_msg(p, &msg, p->team_id + MAX_TEAMS + 1) != -1) {
+            target = msg.target;
+        } else {
+            // Decidir a donde voy
+            /*
+                Pasos para desarrollar un jugador coherente.
+                1. Jugador es tonto -> se mueve aleatorio
+                2. Una vez funcione el 1 implementar que vaya a por un jugador cercano
+                3. Una vez funciones el 2 implementar que lea los mensajes para que se cordinee con su equipo.
+                4. Una vez funcion todo, volverlo inteligente para que analice riesgo y recompensa
+            */
+            target = find_enemy(p);
+            send_msg(p, TARGET, target);
+        }
+        int dir = get_dir(p, target);
+        if (move_player(p, dir) != 0) {
+            if (dir == 1 || dir == 3){
+                if (move_player(p, 2) != 0)
+                    move_player(p, 4);
+            } else {
+                if (move_player(p, 1) != 0)
+                    move_player(p, 3);
+            }
         }
         display_board(p);
-        send_msg(p, MOVE);
-        //dormir un ratiro
+        send_msg(p, MOVE, (t_position){-1, -1});
+        
+        while (recv_msg(p, &msg, p->team_id) != -1);
+        while (recv_msg(p, &msg, p->team_id + MAX_TEAMS + 1) != -1);
+        while (recv_msg(p, &msg, MAX_TEAMS + 1) != -1);
+
+        //dormir un ratito
         usleep(200000);
     }
 
-    send_msg(p, DEATH);
+    send_msg(p, DEATH, (t_position){-1, -1});
     remove_player(p);
 }
 

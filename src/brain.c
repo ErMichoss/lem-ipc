@@ -41,16 +41,14 @@ t_position find_enemy(t_player *p) {
     return positions[closes_pos_idx];
 }
 
-int get_dir(t_player *p) {
-    t_position closest;
+int get_dir(t_player *p, t_position target) {
 
-    closest = find_enemy(p);
-    if (closest.x == p->pos.x && closest.y == p->pos.y)
+    if (target.x == p->pos.x && target.y == p->pos.y)
         return 0;
 
 
-    int x_dif = closest.x - p->pos.x ;
-    int y_dif = closest.y - p->pos.y;
+    int x_dif = target.x - p->pos.x ;
+    int y_dif = target.y - p->pos.y;
     if (x_dif == 0) {
         if (y_dif < 0) { return 2; } else { return 4;}
     } else if (y_dif == 0) {
