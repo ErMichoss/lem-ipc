@@ -33,6 +33,18 @@ int main(int argc, char *argv[]) {
 
     ipc_init(&p);
     put_player(&p);
+
+    sem_lock(p.semid);
+    if (p.shm->player_count == 1) {
+        p.shm->started = 0;
+        sem_unlock(p.semid);
+        printf("Press ENTER to start the game...\n");
+        getchar();
+        p.shm->started = 1;
+    } else {
+        sem_unlock(p.semid);
+    }
+
     p.number = p.shm->player_count;
     g_player = &p;
     player_loop(&p);

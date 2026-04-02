@@ -41,6 +41,10 @@ t_position find_enemy(t_player *p) {
     return positions[closes_pos_idx];
 }
 
+t_position find_best_pos_around_target(t_player *p, t_position target) {
+    
+}
+
 int get_dir(t_player *p, t_position target) {
 
     if (target.x == p->pos.x && target.y == p->pos.y)

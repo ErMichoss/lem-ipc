@@ -37,10 +37,14 @@ bool am_i_dead(t_player *p) {
 }
 
 void player_loop(t_player *p) {
+    while (!p->shm->started)
+        usleep(200000);
+
     while (!am_i_dead(p)) {
         t_message msg;
         t_position target;
         if (recv_msg(p, &msg, p->team_id + MAX_TEAMS + 1) != -1) {
+            printf("Team %d received TARGET: %d,%d\n", p->team_id, msg.target.x, msg.target.y);
             target = msg.target;
         } else {
             // Decidir a donde voy
@@ -52,8 +56,14 @@ void player_loop(t_player *p) {
                 4. Una vez funcion todo, volverlo inteligente para que analice riesgo y recompensa
             */
             target = find_enemy(p);
-            send_msg(p, TARGET, target);
+            if (target.x == p->pos.x && target.y == p->pos.y) {
+            // no hay enemigos, soy el último equipo → victoria
+                p->victory = true;
+                send_msg(p, VICTORY, (t_position){-1, -1});
+                break;
+            }
         }
+        send_msg(p, TARGET, target);
         int dir = get_dir(p, target);
         if (move_player(p, dir) != 0) {
             if (dir == 1 || dir == 3){
