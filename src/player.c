@@ -44,7 +44,6 @@ void player_loop(t_player *p) {
         t_message msg;
         t_position target;
         if (recv_msg(p, &msg, p->team_id + MAX_TEAMS + 1) != -1) {
-            printf("Team %d received TARGET: %d,%d\n", p->team_id, msg.target.x, msg.target.y);
             target = msg.target;
         } else {
             // Decidir a donde voy
@@ -62,9 +61,9 @@ void player_loop(t_player *p) {
                 send_msg(p, VICTORY, (t_position){-1, -1});
                 break;
             }
+            send_msg(p, TARGET, target);
         }
-        send_msg(p, TARGET, target);
-        int dir = get_dir(p, target);
+        int dir = get_dir(p, find_best_pos_around_target(p, target));
         if (move_player(p, dir) != 0) {
             if (dir == 1 || dir == 3){
                 if (move_player(p, 2) != 0)

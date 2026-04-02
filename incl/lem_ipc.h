@@ -118,6 +118,7 @@ void    display_board(t_player *p);
 
 /* ___ BRAIN ___ */
 t_position  find_enemy(t_player *p);
+t_position  find_best_pos_around_target(t_player *p, t_position target);
 int         get_dir(t_player *p, t_position target);
 
 #endif

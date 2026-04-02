@@ -42,7 +42,31 @@ t_position find_enemy(t_player *p) {
 }
 
 t_position find_best_pos_around_target(t_player *p, t_position target) {
-    
+    int offsets[8][2] = {
+        {-1,-1}, {0,-1}, {1,-1},
+        {-1, 0},         {1, 0},
+        {-1, 1}, {0, 1}, {1, 1}
+    };
+    t_position best = target;
+    int best_dist = -1;
+
+    for (int i = 0; i < 8; i++) {
+        int x = target.x + offsets[i][0];
+        int y = target.y + offsets[i][1];
+
+        if (x < 0 || x >= MAX_W || y < 0 || y >= MAX_H)
+            continue;
+        if (p->shm->grid[y][x] != 0)
+            continue;
+
+        t_position candidate = {x, y};
+        int dist = manhattan(p->pos, candidate);
+        if (best_dist == -1 || dist < best_dist) {
+            best_dist = dist;
+            best = candidate;
+        }
+    }
+    return best;
 }
 
 int get_dir(t_player *p, t_position target) {
