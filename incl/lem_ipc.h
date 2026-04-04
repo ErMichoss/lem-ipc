@@ -2,11 +2,11 @@
 # define LEM_IPC_H
 
 # ifndef MAX_W
-#  define MAX_W 20
+#  define MAX_W 15
 # endif
 
 # ifndef MAX_H
-#  define MAX_H 20
+#  define MAX_H 15
 # endif
 
 # ifndef MAX_TEAMS
@@ -50,6 +50,7 @@ typedef struct s_shm {
     int     grid[MAX_W][MAX_H];
     int     dirs[MAX_H][MAX_W];
     int     started;
+    int     winner;
 } t_shm;
 
 typedef struct s_player {

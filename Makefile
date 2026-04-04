@@ -28,6 +28,7 @@ SRCS = src/main.c     \
 
 SRCS_DISPLAY = src/display_main.c \
                src/ipc_init.c     \
+               src/messages.c     \
                src/aux.c
 
 OBJS         = $(SRCS:.c=.o)

@@ -45,6 +45,7 @@ void sdl_init(t_sdl* sdl) {
     SDL_FreeSurface(surf);
 
     sdl->font = TTF_OpenFont("assets/Roboto-Regular.ttf", 12);
+    sdl->victory_font = TTF_OpenFont("assets/Monoton-Regular.ttf", 32);
 }
 
 void draw_floor(t_sdl *sdl) {
@@ -94,6 +95,34 @@ void draw_players(t_sdl *sdl) {
     }
 }
 
+void draw_victory(t_sdl *sdl, int team) {
+    
+    SDL_SetRenderDrawBlendMode(sdl->renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(sdl->renderer, 0, 0, 0, 235);
+    SDL_Rect overlay = {0, 0, MAX_W * 64, MAX_H * 64};
+    SDL_RenderFillRect(sdl->renderer, &overlay);
+
+    SDL_Color color = get_team_color(team);
+
+    char text[64];
+    snprintf(text, 64, "TEAM   %d   WINS!", team);
+    SDL_Surface *surf = TTF_RenderText_Blended(sdl->victory_font, text, color);
+
+    SDL_Texture *tex = SDL_CreateTextureFromSurface(sdl->renderer, surf);
+    SDL_FreeSurface(surf);
+
+    int tw, th;
+    SDL_QueryTexture(tex, NULL, NULL, &tw, &th);
+    SDL_Rect text_rect = {
+        (MAX_W * 64 - tw) / 2,
+        (MAX_H * 64 - th) / 2,
+        tw, th
+    };
+
+    SDL_RenderCopy(sdl->renderer, tex, NULL, &text_rect);
+    SDL_DestroyTexture(tex);
+}
+
 void draw_board(t_sdl *sdl) {
     SDL_RenderClear(sdl->renderer);
     draw_floor(sdl);
@@ -103,12 +132,11 @@ void draw_board(t_sdl *sdl) {
 
 void sdl_loop(t_sdl *sdl) {
     printf("player_count: %d\n", sdl->shm->player_count);
-    while (sdl->shm->player_count > 0) {
+    while (sdl->shm->player_count > 0 && sdl->shm->winner == 0) {
         sem_lock(sdl->semid);
-
         draw_board(sdl);
-
         sem_unlock(sdl->semid);
+        
         SDL_Event event;
 
         while (SDL_PollEvent(&event)) {
@@ -117,6 +145,17 @@ void sdl_loop(t_sdl *sdl) {
             }
         }
         usleep(200000);
+    }
+
+    if (sdl->shm->winner != 0) {
+        draw_victory(sdl, sdl->shm->winner);
+        SDL_RenderPresent(sdl->renderer);
+        
+        SDL_Event event;
+        while (SDL_WaitEvent(&event)) {
+            if (event.type == SDL_QUIT || event.type == SDL_KEYDOWN)
+                return;
+        }
     }
 }
 

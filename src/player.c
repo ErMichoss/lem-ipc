@@ -58,6 +58,10 @@ void player_loop(t_player *p) {
             if (target.x == p->pos.x && target.y == p->pos.y) {
             // no hay enemigos, soy el último equipo → victoria
                 p->victory = true;
+                printf("DEBUG: sending VICTORY for team %d\n", p->team_id);
+                sem_lock(p->semid);
+                p->shm->winner = p->team_id;
+                sem_unlock(p->semid);
                 send_msg(p, VICTORY, (t_position){-1, -1});
                 break;
             }
