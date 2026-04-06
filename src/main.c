@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
     p.victory = false;
 
     ipc_init(&p);
-    put_player(&p);
+    if (put_player(&p) == 1) return 1;
 
     sem_lock(p.semid);
     if (p.shm->player_count == 1) {

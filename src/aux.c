@@ -32,12 +32,12 @@ bool check_args(int argc, char *argv[]) {
         return false;
     }
 	if (!is_valid_team(argv[1])){
-		printf("Error: Team ID not valid, must be a digit between 0 and %i", MAX_TEAMS);
+		printf("Error: Team ID not valid, must be a digit between 1 and %i", MAX_TEAMS);
 		return false;
 	}
     int team_id = ft_atoi(argv[1]);
 	if (team_id < 1 || team_id > MAX_TEAMS) {
-		printf("Error: Team ID out of bounds, must be a digit between 0 and %i", MAX_TEAMS);
+		printf("Error: Team ID out of bounds, must be a digit between 1 and %i", MAX_TEAMS);
 		return false;
 	}
 	return true;

@@ -43,6 +43,12 @@ void player_loop(t_player *p) {
     while (!am_i_dead(p)) {
         t_message msg;
         t_position target;
+
+        if (p->shm->winner != 0) {
+            remove_player(p);
+            return;
+        }
+
         if (recv_msg(p, &msg, p->team_id + MAX_TEAMS + 1) != -1) {
             target = msg.target;
         } else {

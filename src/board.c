@@ -10,6 +10,18 @@ int put_player(t_player *p) {
 
     sem_lock(p->semid);
 
+    int free_tiles = 0;
+    for (int y = 0; y < MAX_H; y++)
+        for (int x = 0; x < MAX_W; x++)
+            if (p->shm->grid[y][x] == 0)
+                free_tiles++;
+    if (free_tiles == 0) {
+        printf("Error: board is full, cannot add more players\n");
+        sem_unlock(p->semid);
+        shmdt(p->shm);
+        return 1;
+    }
+
     do {
         x = rand() % MAX_W;
         y = rand() % MAX_H;
