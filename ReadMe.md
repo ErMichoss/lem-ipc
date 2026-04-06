@@ -91,20 +91,21 @@ The **first player** to join will be prompted to press ENTER to start the game. 
 
 ### Example — 2 teams, 2 players each
 ```bash
-# Terminal 1
-./lemipc_display
 
-# Terminal 2 (press ENTER here to start)
+# Terminal 1 (press ENTER here to start)
+./lemipc 1
+
+# Terminal 2
 ./lemipc 1
 
 # Terminal 3
-./lemipc 1
+./lemipc 2
 
 # Terminal 4
 ./lemipc 2
 
 # Terminal 5
-./lemipc 2
+./lemipc_display
 ```
 
 ---
